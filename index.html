@@ -1481,6 +1481,7 @@
 
       // Scroll reveal: content stays readable if JavaScript or motion support is unavailable.
       const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const preferredScrollBehavior = () => motionPreference.matches ? 'auto' : 'smooth';
       const reveals = [...document.querySelectorAll('.reveal')];
       if (!('IntersectionObserver' in window)) {
         reveals.forEach(item => item.classList.add('is-visible'));
@@ -1538,7 +1539,7 @@
 
       function moveCarousel(direction, interactionType) {
         const left = Math.max(0, Math.min(maxCarouselScroll(), cocktailTrack.scrollLeft + direction * carouselStep()));
-        cocktailTrack.scrollTo({ left, behavior: reduceMotion ? 'auto' : 'smooth' });
+        cocktailTrack.scrollTo({ left, behavior: preferredScrollBehavior() });
         track('menu_interaction', { interaction_type: interactionType, page_section: 'cocktail' });
       }
 
@@ -1569,7 +1570,7 @@
         cocktailTrack.classList.remove('is-pointer-down', 'is-dragging');
         if (cocktailTrack.hasPointerCapture(pointerId)) cocktailTrack.releasePointerCapture(pointerId);
         if (moved) {
-          cocktailTrack.scrollTo({ left: snapLeft, behavior: reduceMotion ? 'auto' : 'smooth' });
+          cocktailTrack.scrollTo({ left: snapLeft, behavior: preferredScrollBehavior() });
           track('menu_interaction', { interaction_type: 'mouse_drag', page_section: 'cocktail' });
         }
       }
@@ -1603,7 +1604,7 @@
           moveCarousel(direction, direction > 0 ? 'keyboard_next' : 'keyboard_prev');
         } else if (event.key === 'Home' || event.key === 'End') {
           event.preventDefault();
-          cocktailTrack.scrollTo({ left: event.key === 'Home' ? 0 : maxCarouselScroll(), behavior: reduceMotion ? 'auto' : 'smooth' });
+          cocktailTrack.scrollTo({ left: event.key === 'Home' ? 0 : maxCarouselScroll(), behavior: preferredScrollBehavior() });
           track('menu_interaction', { interaction_type: event.key === 'Home' ? 'keyboard_home' : 'keyboard_end', page_section: 'cocktail' });
         }
       });
@@ -1634,15 +1635,18 @@
         const number = selectedCard.querySelector('.bolita-no').textContent.trim();
         cocktailCards.forEach(card => card.classList.remove('is-drawn'));
         selectedCard.classList.add('is-drawn');
+        selectedCard.classList.add('is-visible');
         drawToken.textContent = number;
         drawToken.classList.remove('is-spinning');
         void drawToken.offsetWidth;
         drawToken.classList.add('is-spinning');
         drawResult.textContent = `È uscito il ${number} — ${selectedCard.dataset.cocktailName}.`;
 
-        const trackRect = cocktailTrack.getBoundingClientRect();
-        const cardRect = selectedCard.getBoundingClientRect();
-        cocktailTrack.scrollTo({ left: cocktailTrack.scrollLeft + cardRect.left - trackRect.left, behavior: reduceMotion ? 'auto' : 'smooth' });
+        selectedCard.scrollIntoView({
+          behavior: preferredScrollBehavior(),
+          block: 'start',
+          inline: 'center'
+        });
         track('menu_interaction', { interaction_type: 'random_draw', page_section: 'cocktail', cocktail_id: selectedCard.dataset.cocktailId, cocktail_name: selectedCard.dataset.cocktailName });
       });
 
