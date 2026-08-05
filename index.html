@@ -435,7 +435,8 @@
     .draw-token.is-spinning { animation: token-spin .55s var(--ease); }
     .draw-result { min-height: 1.3em; margin: 0; color: rgba(255,249,223,.74); font-size: .78rem; text-align: right; }
     @keyframes token-spin { 0% { transform: rotate(-18deg) scale(.72); } 55% { transform: rotate(12deg) scale(1.14); } 100% { transform: rotate(0) scale(1); } }
-    .cocktail-track { display: grid; grid-template-columns: repeat(6, minmax(285px, 1fr)); gap: 1rem; overflow-x: auto; overscroll-behavior-inline: contain; padding: .7rem .6rem 2rem; scroll-padding-inline: .6rem; scroll-snap-type: x mandatory; scrollbar-color: var(--coral) rgba(14,85,105,.12); scrollbar-width: thin; -webkit-overflow-scrolling: touch; cursor: grab; }
+    .cocktail-track { display: grid; grid-template-columns: repeat(6, minmax(285px, 1fr)); gap: 1rem; overflow-x: auto; overscroll-behavior-inline: contain; padding: .7rem .6rem 2rem; scroll-padding-inline: .6rem; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch; cursor: grab; }
+    .cocktail-track::-webkit-scrollbar { display: none; width: 0; height: 0; }
     .cocktail-track.is-pointer-down { cursor: grabbing; user-select: none; -webkit-user-select: none; }
     .cocktail-track.is-dragging { scroll-snap-type: none; }
     .cocktail-track.is-dragging .cocktail-card { transform: none; transition: none; }
@@ -1582,7 +1583,6 @@
         mouseDrag = { pointerId: event.pointerId, startX: event.clientX, startScrollLeft: cocktailTrack.scrollLeft, moved: false };
         cocktailTrack.classList.add('is-pointer-down');
         cocktailTrack.setPointerCapture(event.pointerId);
-        cocktailTrack.focus({ preventScroll: true });
         event.preventDefault();
       });
       cocktailTrack.addEventListener('pointermove', event => {
