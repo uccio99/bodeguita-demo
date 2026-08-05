@@ -707,40 +707,37 @@
     .toast { position: fixed; z-index: 1500; left: 50%; bottom: max(1rem, env(safe-area-inset-bottom)); max-width: min(90vw, 520px); padding: .8rem 1rem; color: var(--paper-soft); background: var(--ink); border-radius: .7rem; box-shadow: var(--shadow); font-size: .82rem; transform: translate(-50%, 140%); opacity: 0; transition: transform .3s var(--ease), opacity .3s; }
     .toast.is-visible { transform: translate(-50%,0); opacity: 1; }
 
-    .reveal { --reveal-x: 0; --reveal-y: 5.5rem; --reveal-scale: 1; --reveal-delay: 0ms; opacity: 1; translate: 0 0; scale: 1; filter: none; }
-    .reveal[data-reveal="left"] { --reveal-x: -5.5rem; --reveal-y: 0; }
-    .reveal[data-reveal="right"] { --reveal-x: 5.5rem; --reveal-y: 0; }
-    .reveal[data-reveal="scale"] { --reveal-y: 2.75rem; --reveal-scale: .9; }
+    .reveal { --reveal-x: 0; --reveal-y: 1.35rem; --reveal-scale: 1; --reveal-delay: 0ms; opacity: 1; translate: 0 0; scale: 1; }
+    .reveal[data-reveal="left"] { --reveal-x: -1.5rem; --reveal-y: 0; }
+    .reveal[data-reveal="right"] { --reveal-x: 1.5rem; --reveal-y: 0; }
+    .reveal[data-reveal="scale"] { --reveal-y: .8rem; --reveal-scale: .985; }
     .reveal-ready .reveal {
       opacity: 0;
       translate: var(--reveal-x) var(--reveal-y);
       scale: var(--reveal-scale);
-      filter: blur(9px);
-      will-change: opacity, translate, scale, filter;
+      will-change: opacity, translate, scale;
     }
     .reveal-ready.reveal-active .reveal {
       transition:
-        opacity .95s var(--ease) var(--reveal-delay),
-        translate 1.08s var(--ease) var(--reveal-delay),
-        scale 1.08s var(--ease) var(--reveal-delay),
-        filter .9s ease var(--reveal-delay);
+        opacity .5s ease-out var(--reveal-delay),
+        translate .58s var(--ease) var(--reveal-delay),
+        scale .58s var(--ease) var(--reveal-delay);
     }
     .reveal-ready.reveal-active .cocktail-card.reveal {
       transition:
-        opacity .95s var(--ease) var(--reveal-delay),
-        translate 1.08s var(--ease) var(--reveal-delay),
-        scale 1.08s var(--ease) var(--reveal-delay),
-        filter .9s ease var(--reveal-delay),
+        opacity .5s ease-out var(--reveal-delay),
+        translate .58s var(--ease) var(--reveal-delay),
+        scale .58s var(--ease) var(--reveal-delay),
         transform .3s var(--ease),
         box-shadow .3s var(--ease);
     }
     .reveal-ready.reveal-active .cocktail-track.is-dragging .cocktail-card.reveal { transition: none; }
-    .reveal-ready .reveal.is-visible { opacity: 1; translate: 0 0; scale: 1; filter: none; will-change: auto; }
-    .reveal-stagger > .reveal:nth-child(2) { --reveal-delay: 110ms; }
-    .reveal-stagger > .reveal:nth-child(3) { --reveal-delay: 220ms; }
-    .reveal-stagger > .reveal:nth-child(4) { --reveal-delay: 330ms; }
-    .reveal-stagger > .reveal:nth-child(5) { --reveal-delay: 440ms; }
-    .reveal-stagger > .reveal:nth-child(6) { --reveal-delay: 550ms; }
+    .reveal-ready .reveal.is-visible { opacity: 1; translate: 0 0; scale: 1; will-change: auto; }
+    .reveal-stagger > .reveal:nth-child(2) { --reveal-delay: 65ms; }
+    .reveal-stagger > .reveal:nth-child(3) { --reveal-delay: 130ms; }
+    .reveal-stagger > .reveal:nth-child(4) { --reveal-delay: 195ms; }
+    .reveal-stagger > .reveal:nth-child(5) { --reveal-delay: 260ms; }
+    .reveal-stagger > .reveal:nth-child(6) { --reveal-delay: 325ms; }
 
     @media (max-width: 1050px) {
       .nav-links { gap: .9rem; }
@@ -830,7 +827,7 @@
       .cookie-actions { justify-content: stretch; }
       .cookie-actions .btn { flex: 1 1 auto; }
       body.cookie-visible .wa-float { bottom: max(15rem, calc(env(safe-area-inset-bottom) + 15rem)); }
-      .reveal[data-reveal="left"], .reveal[data-reveal="right"] { --reveal-x: 0; --reveal-y: 3.75rem; }
+      .reveal[data-reveal="left"], .reveal[data-reveal="right"] { --reveal-x: 0; --reveal-y: 1.15rem; }
       .brand img { width: 54px; height: 54px; padding: .24rem .3rem; }
     }
 
@@ -890,7 +887,8 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       .ticker-track { animation: none !important; transform: none !important; }
-      .reveal-ready .reveal { opacity: 1; translate: 0 0; scale: 1; filter: none; transition: none !important; }
+      .reveal-ready .reveal { opacity: 0; translate: 0 0; scale: 1; transition: none !important; }
+      .reveal-ready .reveal.is-visible { opacity: 1; }
     }
   </style>
 </head>
@@ -1512,26 +1510,30 @@
       }
 
       // Scroll reveal: content stays readable if JavaScript or motion support is unavailable.
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
       const reveals = [...document.querySelectorAll('.reveal')];
-      if (reduceMotion || !('IntersectionObserver' in window)) {
+      if (!('IntersectionObserver' in window)) {
         reveals.forEach(item => item.classList.add('is-visible'));
       } else if (reveals.length) {
         try {
           document.documentElement.classList.add('reveal-ready');
+          const syncRevealMotion = () => {
+            document.documentElement.classList.toggle('reveal-active', !motionPreference.matches);
+          };
           const revealObserver = new IntersectionObserver(entries => {
             entries.forEach(entry => {
               if (!entry.isIntersecting) return;
               entry.target.classList.add('is-visible');
               revealObserver.unobserve(entry.target);
             });
-          }, { threshold: .16, rootMargin: '0px 0px -22% 0px' });
+          }, { threshold: .08, rootMargin: '0px 0px -12% 0px' });
 
           // Let the hidden starting state render before observing the viewport.
           requestAnimationFrame(() => requestAnimationFrame(() => {
-            document.documentElement.classList.add('reveal-active');
+            syncRevealMotion();
             reveals.forEach(item => revealObserver.observe(item));
           }));
+          if ('addEventListener' in motionPreference) motionPreference.addEventListener('change', syncRevealMotion);
           document.addEventListener('focusin', event => {
             const reveal = event.target.closest('.reveal');
             if (reveal) {
