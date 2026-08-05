@@ -578,49 +578,22 @@
       z-index: 1200;
       right: max(1rem, env(safe-area-inset-right));
       bottom: max(1rem, calc(env(safe-area-inset-bottom) + 1rem));
-      width: 58px;
-      height: 58px;
+      width: 54px;
+      height: 54px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: .6rem;
-      min-height: 56px;
-      padding: .55rem;
-      color: var(--white);
-      background: #176b54;
-      border: 2px solid var(--paper);
-      border-radius: 999px;
-      box-shadow: 0 14px 36px rgba(1,35,31,.3);
-      font-weight: 800;
+      padding: .3rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.92);
+      border-radius: 50%;
       text-decoration: none;
       transition: transform .2s var(--ease), bottom .25s var(--ease);
     }
     body.cookie-visible .wa-float { bottom: max(12.5rem, calc(env(safe-area-inset-bottom) + 12.5rem)); }
-    .wa-float:hover { transform: translateY(-4px); }
-    .wa-icon { width: 40px; height: 40px; display: grid; place-items: center; background: var(--paper-soft); border-radius: 50%; }
-    .wa-icon img { width: 26px; height: 26px; }
-    .wa-copy {
-      position: absolute;
-      right: 0;
-      bottom: calc(100% + .55rem);
-      width: max-content;
-      display: grid;
-      padding: .5rem .7rem;
-      color: var(--paper-soft);
-      background: var(--sea-deep);
-      border: 1px solid var(--paper);
-      border-radius: .7rem;
-      box-shadow: 0 8px 22px rgba(1,35,31,.2);
-      line-height: 1.15;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(.35rem);
-      transition: opacity .18s ease, transform .18s ease;
-    }
-    .wa-float:hover .wa-copy,
-    .wa-float:focus-visible .wa-copy { opacity: 1; transform: none; }
-    .wa-copy small { font-size: .62rem; font-weight: 650; opacity: .76; }
-    .wa-copy strong { font-size: .84rem; }
+    .wa-float:hover { transform: translateY(-2px); }
+    .wa-icon { width: 100%; height: 100%; display: grid; place-items: center; }
+    .wa-icon img { width: 100%; height: 100%; }
 
     .cookie-banner {
       position: fixed;
@@ -847,20 +820,15 @@
       .map-consent { padding: 1rem; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-grid > div:first-child { grid-column: auto; }
-      .wa-copy { display: none; }
       .wa-float,
       body.cookie-visible .wa-float {
-        top: max(.65rem, calc(env(safe-area-inset-top) + .65rem));
-        right: 4.55rem;
-        bottom: auto;
-        width: 48px;
-        height: 48px;
-        justify-content: center;
-        padding: .3rem;
-        box-shadow: 0 8px 22px rgba(1,35,31,.24);
+        top: auto;
+        right: max(.85rem, calc(env(safe-area-inset-right) + .85rem));
+        bottom: max(.85rem, calc(env(safe-area-inset-bottom) + .85rem));
+        width: 50px;
+        height: 50px;
+        padding: .25rem;
       }
-      .wa-icon { width: 36px; height: 36px; }
-      .wa-icon img { width: 24px; height: 24px; }
       .cookie-banner { max-height: min(65svh, 440px); overflow-y: auto; }
       .cookie-actions { display: grid; grid-template-columns: 1fr 1fr; }
       .cookie-actions .btn:last-child { grid-column: 1 / 3; }
@@ -1226,7 +1194,7 @@
   </footer>
 
   <a class="wa-float js-whatsapp" href="#contatto" title="Scrivici su WhatsApp per informazioni o prenotazioni" aria-label="Contatta Bodeguita del Mar su WhatsApp per informazioni o prenotazioni" data-track="booking_cta_click" data-placement="floating-badge">
-    <span class="wa-icon" aria-hidden="true"><img src="assets/whatsapp-mark.svg" width="346" height="346" alt=""></span><span class="wa-copy"><small>Informazioni o tavolo?</small><strong>Scrivici su WhatsApp</strong></span>
+    <span class="wa-icon" aria-hidden="true"><img src="assets/whatsapp-mark.svg" width="346" height="346" alt=""></span>
   </a>
 
   <aside class="cookie-banner" id="cookie-banner" aria-label="Preferenze cookie" hidden>
