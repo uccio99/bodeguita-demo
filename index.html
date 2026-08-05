@@ -474,19 +474,177 @@
     .allergen { display: inline-flex; align-items: center; gap: .4rem; width: max-content; margin: .1rem 0 .6rem; padding: .38rem .55rem; color: var(--ink); background: #f0c95b; border-radius: .4rem; font-size: .72rem; font-weight: 800; }
     .card-note { margin: auto 0 0; padding-top: 1rem; border-top: 1px solid rgba(30,25,13,.25); font-size: .84rem; line-height: 1.5; }
 
-    .experience { color: var(--paper-soft); background: var(--coral); }
+    .experience {
+      isolation: isolate;
+      overflow: clip;
+      color: var(--paper-soft);
+      background:
+        linear-gradient(rgba(30,25,13,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30,25,13,.055) 1px, transparent 1px),
+        linear-gradient(135deg, #f47a3d 0%, var(--coral) 48%, #e96131 100%);
+      background-size: 42px 42px, 42px 42px, auto;
+      border-block: 2px solid var(--ink);
+    }
+    .experience::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -18rem;
+      right: -14rem;
+      width: min(48rem, 62vw);
+      aspect-ratio: 1;
+      border: 2px solid rgba(30,25,13,.12);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 4rem rgba(255,249,223,.055),
+        0 0 0 8rem rgba(30,25,13,.045),
+        0 0 0 12rem rgba(255,249,223,.035);
+      pointer-events: none;
+    }
+    .experience::after {
+      content: "18:00";
+      position: absolute;
+      z-index: -1;
+      right: -.04em;
+      bottom: -.2em;
+      color: rgba(30,25,13,.055);
+      font-family: "Fugaz One", sans-serif;
+      font-size: clamp(8rem, 21vw, 20rem);
+      line-height: .8;
+      letter-spacing: -.08em;
+      pointer-events: none;
+    }
+    .experience .shell { position: relative; z-index: 1; }
     .experience .section-kicker { color: var(--ink); }
-    .experience .display { color: var(--ink); }
-    .experience-intro { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 3rem; }
-    .experience-intro .lead { margin: 0; color: var(--ink); }
-    .experience-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
-    .experience-card { min-height: 310px; display: flex; flex-direction: column; padding: 1.5rem; color: var(--paper-soft); background: var(--sea-deep); border: 2px solid var(--ink); border-radius: var(--radius-md); }
-    .experience-card:nth-child(2) { color: var(--ink); background: var(--paper); }
-    .experience-card:nth-child(3) { color: var(--ink); background: var(--olive); }
+    .experience .display { max-width: 9ch; color: var(--ink); font-size: clamp(3.6rem, 7.3vw, 6.8rem); line-height: .95; }
+    .experience-intro { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(22rem, .92fr); align-items: center; gap: clamp(2rem, 6vw, 6rem); }
+    .experience-heading { position: relative; }
+    .experience-heading::after { content: ""; display: block; width: min(11rem, 42%); height: .65rem; margin-top: 1.5rem; background: var(--ink); border-radius: 999px; }
+    .experience-lead {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 1.4rem;
+      padding: 1.55rem 1.65rem;
+      color: var(--ink);
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-md);
+      box-shadow: 9px 9px 0 var(--sea-deep);
+      transform: rotate(-1deg);
+    }
+    .experience-lead::after { content: ""; position: absolute; inset: .45rem; border: 1px solid rgba(30,25,13,.25); border-radius: calc(var(--radius-md) - .35rem); pointer-events: none; }
+    .experience-time {
+      width: 5.2rem;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 2px dashed var(--coral-deep);
+      border-radius: 50%;
+      color: var(--coral-deep);
+      font-family: "Fugaz One", sans-serif;
+      font-size: 1.05rem;
+      line-height: 1;
+      transform: rotate(7deg);
+    }
+    .experience-intro .lead { position: relative; z-index: 1; margin: 0; color: var(--ink); font-size: clamp(1rem, 1.5vw, 1.12rem); }
+    .experience-grid {
+      display: grid;
+      grid-template-columns: minmax(17rem, .82fr) minmax(0, 1.18fr);
+      grid-template-rows: repeat(2, minmax(15.5rem, auto));
+      gap: 1.35rem;
+      margin-top: clamp(3rem, 6vw, 5rem);
+    }
+    .experience-card {
+      --experience-shadow: var(--ink);
+      --experience-tilt: -.35deg;
+      position: relative;
+      isolation: isolate;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: clamp(1.45rem, 2.5vw, 2.1rem);
+      color: var(--paper-soft);
+      background: var(--sea-deep);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-md);
+      box-shadow: 10px 10px 0 var(--experience-shadow);
+      transform: rotate(var(--experience-tilt));
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+    }
+    .experience-card::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -5rem;
+      right: -5rem;
+      width: 15rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle, transparent 0 1.05rem, currentColor 1.05rem 1.16rem, transparent 1.16rem 2.15rem);
+      opacity: .11;
+      pointer-events: none;
+    }
+    .experience-card::after { content: ""; position: absolute; z-index: -1; inset: .55rem; border: 1px solid currentColor; border-radius: calc(var(--radius-md) - .4rem); opacity: .22; pointer-events: none; }
+    .experience-card:nth-child(1) { grid-area: 1 / 1; }
+    .experience-card:nth-child(2) { --experience-shadow: var(--coral-deep); --experience-tilt: .25deg; grid-area: 1 / 2 / 3 / 3; color: var(--ink); background: var(--paper); }
+    .experience-card:nth-child(2)::before { top: auto; right: -3rem; bottom: -4rem; width: 23rem; opacity: .09; }
+    .experience-card:nth-child(3) { --experience-shadow: var(--sea-deep); --experience-tilt: .4deg; grid-area: 2 / 1; color: var(--ink); background: #829252; }
     .experience-card:nth-child(3) p { opacity: 1; }
-    .experience-icon { font-family: Georgia, serif; font-size: 3.7rem; line-height: 1; }
-    .experience-card h3 { margin: auto 0 .7rem; font-family: "Fugaz One", sans-serif; font-size: 1.7rem; font-weight: 400; }
-    .experience-card p { margin: 0; opacity: .8; }
+    .experience-card-top { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .experience-icon {
+      width: 4.2rem;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      background: rgba(255,249,223,.08);
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      font-family: Georgia, serif;
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+    .experience-card:nth-child(2) .experience-icon { color: var(--paper); background: var(--coral-deep); border-color: var(--ink); }
+    .experience-index { align-self: flex-start; font-family: "Fugaz One", sans-serif; font-size: .8rem; letter-spacing: .16em; }
+    .experience-index::before { content: ""; display: inline-block; width: 2.7rem; height: 2px; margin-right: .65rem; vertical-align: middle; background: currentColor; }
+    .experience-card-copy { position: relative; z-index: 1; margin-top: auto; }
+    .experience-card h3 { margin: 1.6rem 0 .65rem; max-width: 14ch; font-family: "Fugaz One", sans-serif; font-size: clamp(1.45rem, 2.2vw, 1.85rem); font-weight: 400; line-height: 1.08; text-wrap: balance; }
+    .experience-card p { max-width: 42ch; margin: 0; opacity: .84; }
+    .experience-card:nth-child(2) h3 { max-width: 10ch; font-size: clamp(2.8rem, 5vw, 4.7rem); line-height: .98; }
+    .experience-card:nth-child(2) p { max-width: 39ch; font-size: 1.05rem; }
+    .experience-bolita { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(.45rem, 1.2vw, .8rem); margin: clamp(2rem, 5vw, 4.5rem) 0 2rem; }
+    .experience-bolita span {
+      width: min(100%, 3.8rem);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      justify-self: center;
+      color: var(--ink);
+      background: var(--coral);
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      box-shadow: 3px 3px 0 var(--ink);
+      font-family: "Fugaz One", sans-serif;
+      font-size: clamp(.78rem, 1.3vw, 1rem);
+      transform: rotate(-6deg);
+    }
+    .experience-bolita span:nth-child(2), .experience-bolita span:nth-child(5) { background: #e4b733; transform: rotate(5deg); }
+    .experience-bolita span:nth-child(3), .experience-bolita span:nth-child(6) { color: var(--paper-soft); background: var(--sea); transform: rotate(-2deg); }
+    .reveal-ready.reveal-active .experience-card.reveal {
+      transition:
+        opacity .5s ease-out var(--reveal-delay),
+        translate .58s var(--ease) var(--reveal-delay),
+        scale .58s var(--ease) var(--reveal-delay),
+        transform .35s var(--ease),
+        box-shadow .35s var(--ease);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .experience-card:hover { transform: translateY(-7px) rotate(0); box-shadow: 15px 16px 0 var(--experience-shadow); }
+    }
 
     .gallery { background: var(--paper); }
     .gallery-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
@@ -730,6 +888,10 @@
       .gallery-item:first-child { grid-row: 1 / 3; }
       .gallery-item:nth-child(2) { grid-column: auto; }
       .gallery-item--texture { grid-column: 2; }
+      .experience-intro { grid-template-columns: 1fr; gap: 2rem; }
+      .experience .display { max-width: 11ch; }
+      .experience-lead { max-width: 50rem; }
+      .experience-grid { grid-template-columns: minmax(17rem, .9fr) minmax(0, 1.1fr); }
       .location-layout { grid-template-columns: .85fr 1.15fr; }
     }
 
@@ -786,9 +948,26 @@
       .draw-result { text-align: left; }
       .cocktail-track { grid-template-columns: repeat(6, min(82vw, 330px)); margin-inline: -.6rem; padding-inline: .6rem; scroll-padding-inline: .6rem; }
       .cocktail-card { min-height: 540px; }
-      .experience-intro { grid-template-columns: 1fr; gap: 1.5rem; }
-      .experience-grid { grid-template-columns: 1fr; }
-      .experience-card { min-height: 240px; }
+      .experience { background-size: 32px 32px, 32px 32px, auto; }
+      .experience::before { top: -10rem; right: -12rem; width: 26rem; box-shadow: 0 0 0 2.5rem rgba(255,249,223,.05), 0 0 0 5rem rgba(30,25,13,.04); }
+      .experience::after { right: -.06em; bottom: -.12em; font-size: clamp(7rem, 38vw, 11rem); }
+      .experience .display { max-width: 10ch; font-size: clamp(2.85rem, 13vw, 4.5rem); }
+      .experience-intro { gap: 1.5rem; }
+      .experience-heading::after { height: .45rem; margin-top: 1rem; }
+      .experience-lead { gap: 1rem; padding: 1.2rem; border-radius: 1rem; box-shadow: 6px 6px 0 var(--sea-deep); transform: none; }
+      .experience-time { width: 4.2rem; font-size: .84rem; }
+      .experience-intro .lead { font-size: .96rem; line-height: 1.58; }
+      .experience-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; gap: 1rem; margin-top: 2.7rem; }
+      .experience-card:nth-child(1), .experience-card:nth-child(2), .experience-card:nth-child(3) { grid-area: auto; }
+      .experience-card { min-height: 0; padding: 1.3rem; box-shadow: 6px 6px 0 var(--experience-shadow); transform: none; }
+      .experience-card::after { inset: .4rem; }
+      .experience-icon { width: 3.35rem; font-size: 2.15rem; }
+      .experience-index::before { width: 1.8rem; }
+      .experience-card-copy { margin-top: 1.35rem; }
+      .experience-card h3, .experience-card:nth-child(2) h3 { max-width: 15ch; margin: 0 0 .55rem; font-size: clamp(1.45rem, 7vw, 1.9rem); line-height: 1.05; }
+      .experience-card:nth-child(2) p { font-size: .96rem; }
+      .experience-bolita { gap: .35rem; margin: 1.35rem 0 1.5rem; }
+      .experience-bolita span { width: min(100%, 2.85rem); font-size: .76rem; box-shadow: 2px 2px 0 var(--ink); }
       .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 320px 210px 210px; }
       .gallery-item:first-child { grid-column: 1 / 3; grid-row: auto; }
       .gallery-item:nth-child(2), .gallery-item--texture { grid-column: auto; }
@@ -1066,13 +1245,23 @@
     <section class="section experience" id="esperienza" aria-labelledby="experience-title">
       <div class="shell">
         <div class="experience-intro">
-          <div class="reveal" data-reveal="left"><p class="section-kicker">Aperitivo o dopocena</p><h2 class="display" id="experience-title">La tua serata, come la preferisci.</h2></div>
-          <p class="lead reveal" data-reveal="right">Dalle 18:00 accomodati per un aperitivo, resta per il dopocena o passa semplicemente per un buon drink. Il cuore della proposta è cubano, con spazio anche per i sapori e i cocktail che conosci già.</p>
+          <div class="experience-heading reveal" data-reveal="left"><p class="section-kicker">Aperitivo o dopocena</p><h2 class="display" id="experience-title">La tua serata, come la preferisci.</h2></div>
+          <div class="experience-lead reveal" data-reveal="right"><span class="experience-time" aria-hidden="true">18:00</span><p class="lead">Dalle 18:00 accomodati per un aperitivo, resta per il dopocena o passa semplicemente per un buon drink. Il cuore della proposta è cubano, con spazio anche per i sapori e i cocktail che conosci già.</p></div>
         </div>
         <div class="experience-grid reveal-stagger">
-          <article class="experience-card reveal" data-reveal="scale"><span class="experience-icon" aria-hidden="true">◒</span><h3>Sapori con ritmo cubano</h3><p>Platano fritto e specialità tipiche reinterpretate in chiave pugliese, secondo le proposte del giorno.</p></article>
-          <article class="experience-card reveal" data-reveal="scale"><span class="experience-icon" aria-hidden="true">✦</span><h3>I nostri signature</h3><p>Le sei ricette della bolita, ciascuna con un numero, un carattere e un modo diverso di sorprendere.</p></article>
-          <article class="experience-card reveal" data-reveal="scale"><span class="experience-icon" aria-hidden="true">◇</span><h3>Anche i grandi classici</h3><p>Per chi li preferisce, prepariamo cocktail tradizionali e accompagniamo l’aperitivo anche con taralli, olive e prodotti tipici pugliesi.</p></article>
+          <article class="experience-card reveal" data-reveal="scale">
+            <div class="experience-card-top" aria-hidden="true"><span class="experience-icon">◒</span><span class="experience-index">01</span></div>
+            <div class="experience-card-copy"><h3>Sapori con ritmo cubano</h3><p>Platano fritto e specialità tipiche reinterpretate in chiave pugliese, secondo le proposte del giorno.</p></div>
+          </article>
+          <article class="experience-card reveal" data-reveal="scale">
+            <div class="experience-card-top" aria-hidden="true"><span class="experience-icon">✦</span><span class="experience-index">02</span></div>
+            <div class="experience-bolita" aria-hidden="true"><span>36</span><span>2</span><span>73</span><span>77</span><span>49</span><span>5</span></div>
+            <div class="experience-card-copy"><h3>I nostri signature</h3><p>Le sei ricette della bolita, ciascuna con un numero, un carattere e un modo diverso di sorprendere.</p></div>
+          </article>
+          <article class="experience-card reveal" data-reveal="scale">
+            <div class="experience-card-top" aria-hidden="true"><span class="experience-icon">◇</span><span class="experience-index">03</span></div>
+            <div class="experience-card-copy"><h3>Anche i grandi classici</h3><p>Per chi li preferisce, prepariamo cocktail tradizionali e accompagniamo l’aperitivo anche con taralli, olive e prodotti tipici pugliesi.</p></div>
+          </article>
         </div>
       </div>
     </section>
