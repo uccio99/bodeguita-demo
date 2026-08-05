@@ -416,13 +416,16 @@
     .story-fact strong { display: block; color: var(--coral); font-family: "Fugaz One", sans-serif; font-size: 1.4rem; font-weight: 400; }
     .story-fact span { color: rgba(255,249,223,.72); font-size: .84rem; }
 
-    .cocktails { overflow: hidden; background: var(--paper-soft); }
-    .cocktail-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
-    .cocktail-head .lead { margin: 0; max-width: 43ch; }
-    .carousel-tools { display: grid; flex: none; justify-items: end; gap: .6rem; }
+    .cocktails.section { overflow: hidden; padding-block: clamp(4.5rem, 8vw, 7rem); background: var(--paper-soft); }
+    .cocktail-head { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(22rem, .7fr); align-items: end; gap: clamp(2.5rem, 6vw, 5rem); margin-bottom: 2.25rem; }
+    .cocktail-heading { min-width: 0; }
+    .cocktail-head .display { max-width: none; font-size: clamp(3.5rem, 6.25vw, 5.2rem); line-height: .96; letter-spacing: -.025em; }
+    .cocktail-title-line { display: block; }
+    .cocktail-aside { display: grid; gap: 1.35rem; padding: 1.35rem 1.4rem; background: linear-gradient(100deg, rgba(238,115,55,.11), rgba(238,115,55,.025)); border-left: 4px solid var(--coral); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+    .cocktail-head .lead { margin: 0; max-width: 46ch; }
+    .carousel-tools { width: 100%; display: flex; align-items: center; gap: 1rem; }
+    .carousel-tools::before { content: ""; height: 2px; flex: 1 1 auto; background: linear-gradient(90deg, var(--coral), rgba(14,85,105,.18)); }
     .carousel-controls { display: flex; gap: .5rem; }
-    .swipe-hint { display: inline-flex; align-items: center; gap: .45rem; margin: 0; color: var(--sea-deep); font-size: .72rem; font-weight: 800; letter-spacing: .045em; text-transform: uppercase; }
-    .swipe-hint-touch { display: none; }
     .carousel-btn { width: 48px; height: 48px; display: grid; place-items: center; border: 2px solid var(--sea-deep); border-radius: 50%; color: var(--sea-deep); background: transparent; font-size: 1.45rem; cursor: pointer; transition: color .2s, background .2s, transform .2s; }
     .carousel-btn:hover { color: var(--paper-soft); background: var(--sea-deep); transform: scale(1.04); }
     .carousel-btn:disabled { opacity: .32; cursor: not-allowed; transform: none; }
@@ -880,9 +883,9 @@
       .hero-visual::before { background: linear-gradient(0deg, var(--sea-deep) 0, transparent 30%); }
       .hero-brand-lockup { display: none; }
       .hero-copy { padding: clamp(3.2rem, 7vw, 5rem) 2rem clamp(4rem, 7vw, 6rem); }
-      .cocktail-head { align-items: flex-start; flex-wrap: wrap; }
-      .cocktail-head .lead { flex: 1 1 26rem; }
-      .carousel-tools { margin-left: auto; }
+      .cocktail-head { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
+      .cocktail-head .display { max-width: 13ch; }
+      .cocktail-aside { width: min(100%, 50rem); margin-left: auto; }
       .concept-grid, .instagram-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
       .gallery-grid { grid-template-columns: 1fr 1fr; }
       .gallery-item:first-child { grid-row: 1 / 3; }
@@ -937,12 +940,13 @@
       .route-stop:nth-child(2), .route-stop:nth-child(3) { margin-left: 0; }
       .story-portrait { max-width: 440px; margin-inline: auto; }
       .story-grid { gap: 3.5rem; }
-      .cocktail-head, .gallery-head { align-items: start; flex-direction: column; }
-      .cocktail-head { gap: 1.4rem; margin-bottom: 1.75rem; }
-      .cocktail-head .lead { width: 100%; flex: none; }
-      .carousel-tools { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-      .swipe-hint-desktop { display: none; }
-      .swipe-hint-touch { display: inline; }
+      .gallery-head { align-items: start; flex-direction: column; }
+      .cocktail-head { gap: 1.25rem; margin-bottom: 1.75rem; }
+      .cocktails.section { padding-block: 3.8rem; }
+      .cocktail-head .display { max-width: 12ch; font-size: clamp(2.8rem, 12.5vw, 4.2rem); }
+      .cocktail-aside { width: 100%; margin-left: 0; padding: 1.1rem 0 0; background: none; border-left: 0; border-top: 2px solid var(--coral); border-radius: 0; }
+      .cocktail-head .lead { width: 100%; }
+      .carousel-tools { gap: .85rem; }
       .bolita-draw { grid-template-columns: 1fr; align-items: start; }
       .draw-tools { justify-items: start; }
       .draw-result { text-align: left; }
@@ -1160,16 +1164,17 @@
     <section class="section cocktails" id="cocktail" aria-labelledby="cocktail-title">
       <div class="shell">
         <div class="cocktail-head">
-          <div class="reveal">
+          <div class="cocktail-heading reveal">
             <p class="section-kicker">La nostra tombola cubana</p>
-            <h2 class="display" id="cocktail-title">La bolita, servita nel bicchiere.</h2>
+            <h2 class="display" id="cocktail-title">La bolita, servita <span class="cocktail-title-line">nel bicchiere.</span></h2>
           </div>
-          <p class="lead reveal">Nella charada cubana, sogni e vita quotidiana diventano numeri della bolita: una tradizione popolare che ricorda la nostra Smorfia. Alla Bodeguita ne abbiamo scelti sei e li abbiamo trasformati in cocktail.</p>
-          <div class="carousel-tools reveal" data-reveal="scale">
-            <p class="swipe-hint"><span aria-hidden="true">↔</span><span class="swipe-hint-desktop">Trascina con il mouse o usa le frecce</span><span class="swipe-hint-touch">Scorri con il dito</span></p>
-            <div class="carousel-controls" role="group" aria-label="Controlli lista cocktail">
-              <button class="carousel-btn" type="button" data-carousel="prev" aria-controls="cocktail-track" aria-label="Cocktail precedente">←</button>
-              <button class="carousel-btn" type="button" data-carousel="next" aria-controls="cocktail-track" aria-label="Cocktail successivo">→</button>
+          <div class="cocktail-aside reveal" data-reveal="right">
+            <p class="lead">Nella charada cubana, sogni e vita quotidiana diventano numeri della bolita: una tradizione popolare che ricorda la nostra Smorfia. Alla Bodeguita ne abbiamo scelti sei e li abbiamo trasformati in cocktail.</p>
+            <div class="carousel-tools">
+              <div class="carousel-controls" role="group" aria-label="Controlli lista cocktail">
+                <button class="carousel-btn" type="button" data-carousel="prev" aria-controls="cocktail-track" aria-label="Cocktail precedente">←</button>
+                <button class="carousel-btn" type="button" data-carousel="next" aria-controls="cocktail-track" aria-label="Cocktail successivo">→</button>
+              </div>
             </div>
           </div>
         </div>
