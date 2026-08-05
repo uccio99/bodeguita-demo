@@ -417,12 +417,20 @@
     .story-fact span { color: rgba(255,249,223,.72); font-size: .84rem; }
 
     .cocktails.section { overflow: hidden; padding-block: clamp(4.5rem, 8vw, 7rem); background: var(--paper-soft); }
-    .cocktail-head { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(22rem, .7fr); align-items: end; gap: clamp(2.5rem, 6vw, 5rem); margin-bottom: 2.25rem; }
-    .cocktail-heading { min-width: 0; }
-    .cocktail-head .display { max-width: none; font-size: clamp(3.5rem, 6.25vw, 5.2rem); line-height: .96; letter-spacing: -.025em; }
+    .cocktail-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(22rem, .9fr);
+      grid-template-areas: "kicker kicker" "title aside";
+      align-items: start;
+      gap: .85rem clamp(2.5rem, 4.5vw, 4rem);
+      margin-bottom: 2.25rem;
+    }
+    .cocktail-kicker { grid-area: kicker; width: 100%; margin: 0; }
+    .cocktail-kicker::after { content: ""; height: 1px; flex: 1 1 auto; background: rgba(189,69,46,.25); }
+    .cocktail-head .display { grid-area: title; max-width: none; font-size: clamp(3.4rem, 5.5vw, 4.65rem); line-height: .98; letter-spacing: -.025em; }
     .cocktail-title-line { display: block; }
-    .cocktail-aside { display: grid; gap: 1.35rem; padding: 1.35rem 1.4rem; background: linear-gradient(100deg, rgba(238,115,55,.11), rgba(238,115,55,.025)); border-left: 4px solid var(--coral); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
-    .cocktail-head .lead { margin: 0; max-width: 46ch; }
+    .cocktail-aside { grid-area: aside; align-self: stretch; display: grid; grid-template-rows: 1fr auto; gap: 1.2rem; padding: .1rem 0 0; }
+    .cocktail-head .lead { margin: 0; max-width: none; }
     .carousel-tools { width: 100%; display: flex; align-items: center; gap: 1rem; }
     .carousel-tools::before { content: ""; height: 2px; flex: 1 1 auto; background: linear-gradient(90deg, var(--coral), rgba(14,85,105,.18)); }
     .carousel-controls { display: flex; gap: .5rem; }
@@ -883,9 +891,9 @@
       .hero-visual::before { background: linear-gradient(0deg, var(--sea-deep) 0, transparent 30%); }
       .hero-brand-lockup { display: none; }
       .hero-copy { padding: clamp(3.2rem, 7vw, 5rem) 2rem clamp(4rem, 7vw, 6rem); }
-      .cocktail-head { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
+      .cocktail-head { grid-template-columns: minmax(0, 1fr); grid-template-areas: "kicker" "title" "aside"; gap: .9rem; }
       .cocktail-head .display { max-width: 13ch; }
-      .cocktail-aside { width: min(100%, 50rem); margin-left: auto; }
+      .cocktail-aside { width: 100%; margin-left: 0; padding: 0; }
       .concept-grid, .instagram-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
       .gallery-grid { grid-template-columns: 1fr 1fr; }
       .gallery-item:first-child { grid-row: 1 / 3; }
@@ -941,10 +949,9 @@
       .story-portrait { max-width: 440px; margin-inline: auto; }
       .story-grid { gap: 3.5rem; }
       .gallery-head { align-items: start; flex-direction: column; }
-      .cocktail-head { gap: 1.25rem; margin-bottom: 1.75rem; }
+      .cocktail-head { gap: .8rem; margin-bottom: 1.75rem; }
       .cocktails.section { padding-block: 3.8rem; }
       .cocktail-head .display { max-width: 12ch; font-size: clamp(2.8rem, 12.5vw, 4.2rem); }
-      .cocktail-aside { width: 100%; margin-left: 0; padding: 1.1rem 0 0; background: none; border-left: 0; border-top: 2px solid var(--coral); border-radius: 0; }
       .cocktail-head .lead { width: 100%; }
       .carousel-tools { gap: .85rem; }
       .bolita-draw { grid-template-columns: 1fr; align-items: start; }
@@ -1164,10 +1171,8 @@
     <section class="section cocktails" id="cocktail" aria-labelledby="cocktail-title">
       <div class="shell">
         <div class="cocktail-head">
-          <div class="cocktail-heading reveal">
-            <p class="section-kicker">La nostra tombola cubana</p>
-            <h2 class="display" id="cocktail-title">La bolita, servita <span class="cocktail-title-line">nel bicchiere.</span></h2>
-          </div>
+          <p class="section-kicker cocktail-kicker reveal">La nostra tombola cubana</p>
+          <h2 class="display reveal" id="cocktail-title" data-reveal="left">La bolita, servita <span class="cocktail-title-line">nel bicchiere.</span></h2>
           <div class="cocktail-aside reveal" data-reveal="right">
             <p class="lead">Nella charada cubana, sogni e vita quotidiana diventano numeri della bolita: una tradizione popolare che ricorda la nostra Smorfia. Alla Bodeguita ne abbiamo scelti sei e li abbiamo trasformati in cocktail.</p>
             <div class="carousel-tools">
