@@ -1623,6 +1623,7 @@
       const drawButton = document.getElementById('draw-cocktail');
       const drawToken = document.getElementById('draw-token');
       const drawResult = document.getElementById('draw-result');
+      const drawPanel = drawButton.closest('.bolita-draw');
       let lastDraw = -1;
       drawButton.disabled = false;
       drawButton.addEventListener('click', () => {
@@ -1642,10 +1643,17 @@
         drawToken.classList.add('is-spinning');
         drawResult.textContent = `È uscito il ${number} — ${selectedCard.dataset.cocktailName}.`;
 
-        selectedCard.scrollIntoView({
-          behavior: preferredScrollBehavior(),
+        const behavior = preferredScrollBehavior();
+        const trackRect = cocktailTrack.getBoundingClientRect();
+        const cardRect = selectedCard.getBoundingClientRect();
+        const centeredLeft = Math.max(0, Math.min(maxCarouselScroll(),
+          cocktailTrack.scrollLeft + cardRect.left - trackRect.left - (trackRect.width - cardRect.width) / 2
+        ));
+        cocktailTrack.scrollTo({ left: centeredLeft, behavior });
+        drawPanel.scrollIntoView({
+          behavior,
           block: 'start',
-          inline: 'center'
+          inline: 'nearest'
         });
         track('menu_interaction', { interaction_type: 'random_draw', page_section: 'cocktail', cocktail_id: selectedCard.dataset.cocktailId, cocktail_name: selectedCard.dataset.cocktailName });
       });
